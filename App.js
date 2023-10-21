@@ -12,7 +12,6 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="StartScreen"
-        screenOptions={{ headerTitle: '' }}
       >
         <Stack.Screen
           name="StartScreen"
