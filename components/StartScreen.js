@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 
 const StartScreen = ({ navigation }) => {
-  const [name, setName] = useState('anonymous');
+  const [name, setName] = useState('');
   const [color, setColor] = useState('#FFFFFF');
   const colors = ['#FFFFFF', '#474056', '#757083', '#8A95A5', '#B9C6AE'];
 
