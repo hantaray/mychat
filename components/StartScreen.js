@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 
 const StartScreen = ({ navigation }) => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState('anonymous');
+  const [color, setColor] = useState('#FFFFFF');
+  const colors = ['#FFFFFF', '#474056', '#757083', '#8A95A5', '#B9C6AE'];
 
   return (
     <View style={styles.container}>
@@ -19,24 +21,28 @@ const StartScreen = ({ navigation }) => {
           <View style={styles.colorButtonContainer}>
             <TouchableOpacity
               style={[styles.colorButtons, styles.colorBtn1]}
+              onPress={() => setColor(colors[1])}
             >
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.colorButtons, styles.colorBtn2]}
+              onPress={() => setColor(colors[2])}
             >
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.colorButtons, styles.colorBtn3]}
+              onPress={() => setColor(colors[3])}
             >
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.colorButtons, styles.colorBtn4]}
+              onPress={() => setColor(colors[4])}
             >
             </TouchableOpacity>
           </View>
           <TouchableOpacity
             style={styles.startButton}
-            onPress={() => navigation.navigate('ChatScreen', { name: name })}>
+            onPress={() => navigation.navigate('ChatScreen', { name: name, color: color })}>
             <Text style={styles.startButtonText}>Start Chatting</Text>
           </TouchableOpacity>
 
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#474056'
   },
   colorBtn2: {
-    backgroundColor: '#757083',
+    backgroundColor: '#757083'
   },
   colorBtn3: {
     backgroundColor: '#8A95A5'
