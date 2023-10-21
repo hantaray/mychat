@@ -45,10 +45,7 @@ const StartScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('ChatScreen', { name: name, color: color })}>
             <Text style={styles.startButtonText}>Start Chatting</Text>
           </TouchableOpacity>
-
-
         </View>
-
       </ImageBackground >
     </View >
   );
