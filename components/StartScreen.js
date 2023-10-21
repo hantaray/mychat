@@ -1,39 +1,131 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, Button, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 
 const StartScreen = ({ navigation }) => {
   const [name, setName] = useState('');
 
   return (
     <View style={styles.container}>
-      <Text>Hello StartScreen!</Text>
-      <TextInput
-        style={styles.textInput}
-        value={name}
-        onChangeText={setName}
-        placeholder='Type your username here'
-      />
-      <Button
-        title="Go to Screen 2"
-        onPress={() => navigation.navigate('ChatScreen', { name: name })}
-      />
-    </View>
+      <ImageBackground source={require('../assets/bgImage.png')} resizeMode="cover" style={styles.bgImage}>
+        <Text style={styles.title}>MyChat</Text>
+        <View style={styles.contentBox}>
+          <TextInput
+            style={styles.textInput}
+            value={name}
+            onChangeText={setName}
+            placeholder='Your name'
+          />
+          <Text style={styles.text}>Choose Background Color:</Text>
+          <View style={styles.colorButtonContainer}>
+            <TouchableOpacity
+              style={[styles.colorButtons, styles.colorBtn1]}
+            >
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.colorButtons, styles.colorBtn2]}
+            >
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.colorButtons, styles.colorBtn3]}
+            >
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.colorButtons, styles.colorBtn4]}
+            >
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            style={styles.startButton}
+            onPress={() => navigation.navigate('ChatScreen', { name: name })}>
+            <Text style={styles.startButtonText}>Start Chatting</Text>
+          </TouchableOpacity>
+
+
+        </View>
+
+      </ImageBackground >
+    </View >
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+  },
+  bgImage: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  title: {
+    flex: 1,
+    fontSize: 45,
+    marginTop: 80,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    alignSelf: 'center'
+  },
+  contentBox: {
+    width: '88%',
+    height: '44%',
+    marginBottom: '6%',
+    alignSelf: 'center',
+    fontSize: 45,
+    fontWeight: '600',
+    backgroundColor: '#FFFFFF'
+
   },
   textInput: {
-    width: "88%",
-    padding: 15,
+    width: '88%',
+    padding: 16,
     borderWidth: 1,
-    marginTop: 15,
-    marginBottom: 15
-  }
+    marginTop: 16,
+    marginBottom: 16,
+    alignSelf: 'center'
+  },
+  text: {
+    marginTop: 16,
+    paddingStart: '6%',
+    fontSize: 16,
+    fontWeight: '300',
+    opacity: 1
+  },
+  colorButtonContainer: {
+    width: '88%',
+    padding: 16,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  colorButtons: {
+    width: 50,
+    height: 50,
+    borderRadius: 25
+  },
+  colorBtn1: {
+    backgroundColor: '#474056'
+  },
+  colorBtn2: {
+    backgroundColor: '#757083',
+  },
+  colorBtn3: {
+    backgroundColor: '#8A95A5'
+  },
+  colorBtn4: {
+    backgroundColor: '#B9C6AE'
+  },
+  startButton: {
+    width: '88%',
+    padding: 16,
+    marginTop: 21,
+    alignSelf: 'center',
+    backgroundColor: '#757083'
+  },
+  startButtonText: {
+    alignSelf: 'center',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
 });
 
 export default StartScreen;
