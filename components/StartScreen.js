@@ -20,7 +20,8 @@ const StartScreen = ({ navigation }) => {
           <Text style={styles.text}>Choose Background Color:</Text>
           <View style={styles.colorButtonContainer}>
             {colors.map((color, index) => (
-              <TouchableOpacity key={index} style={[styles.colorButtons, { backgroundColor: color }, bgColor === color && styles.selected]} onPress={() => setBgColor(color)} />
+              <TouchableOpacity key={index} style={[styles.colorButtons, { backgroundColor: color },
+              bgColor === color && styles.selected]} onPress={() => setBgColor(color)} />
             ))}
           </View>
           <TouchableOpacity
