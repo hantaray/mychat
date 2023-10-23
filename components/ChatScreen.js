@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
 
 const ChatScreen = ({ route, navigation }) => {
@@ -29,23 +29,23 @@ const ChatScreen = ({ route, navigation }) => {
   }
 
   return (
-    // <View style={[styles.container, { backgroundColor: bgColor }]}>
-    <GiftedChat
-      messages={messages}
-      onSend={messages => onSend(messages)}
-      user={{
-        _id: 1
-      }}
-    />
-    // </View>
+    <View style={[styles.container, { backgroundColor: bgColor }]}>
+      <GiftedChat
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: 1
+        }}
+      />
+      {/* Fix for hidden keyboard on android */}
+      {Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1
   }
 });
 
