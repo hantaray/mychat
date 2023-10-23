@@ -3,8 +3,8 @@ import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } 
 
 const StartScreen = ({ navigation }) => {
   const [name, setName] = useState('');
-  const [color, setColor] = useState('#FFFFFF');
-  const colors = ['#FFFFFF', '#474056', '#757083', '#8A95A5', '#B9C6AE'];
+  const [bgColor, setBgColor] = useState('#FFFFFF');
+  const colors = ['#474056', '#757083', '#8A95A5', '#B9C6AE'];
 
   return (
     <View style={styles.container}>
@@ -19,30 +19,13 @@ const StartScreen = ({ navigation }) => {
           />
           <Text style={styles.text}>Choose Background Color:</Text>
           <View style={styles.colorButtonContainer}>
-            <TouchableOpacity
-              style={[styles.colorButtons, styles.colorBtn1]}
-              onPress={() => setColor(colors[1])}
-            >
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.colorButtons, styles.colorBtn2]}
-              onPress={() => setColor(colors[2])}
-            >
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.colorButtons, styles.colorBtn3]}
-              onPress={() => setColor(colors[3])}
-            >
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.colorButtons, styles.colorBtn4]}
-              onPress={() => setColor(colors[4])}
-            >
-            </TouchableOpacity>
+            {colors.map((color, index) => (
+              <TouchableOpacity key={index} style={[styles.colorButtons, { backgroundColor: color }, bgColor === color && styles.selected]} onPress={() => setBgColor(color)} />
+            ))}
           </View>
           <TouchableOpacity
             style={styles.startButton}
-            onPress={() => navigation.navigate('ChatScreen', { name: name, color: color })}>
+            onPress={() => navigation.navigate('ChatScreen', { name: name, bgColor: bgColor })}>
             <Text style={styles.startButtonText}>Start Chatting</Text>
           </TouchableOpacity>
         </View>
@@ -93,28 +76,19 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   colorButtonContainer: {
-    width: '88%',
-    padding: 16,
+    padding: 8,
     alignSelf: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between'
   },
   colorButtons: {
     width: 50,
     height: 50,
+    margin: 8,
     borderRadius: 25
   },
-  colorBtn1: {
-    backgroundColor: '#474056'
-  },
-  colorBtn2: {
-    backgroundColor: '#757083'
-  },
-  colorBtn3: {
-    backgroundColor: '#8A95A5'
-  },
-  colorBtn4: {
-    backgroundColor: '#B9C6AE'
+  selected: {
+    borderWidth: 2,
+    borderColor: 'black',
   },
   startButton: {
     width: '88%',
