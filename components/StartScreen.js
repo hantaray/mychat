@@ -20,11 +20,18 @@ const StartScreen = ({ navigation }) => {
           <Text style={styles.text}>Choose Background Color:</Text>
           <View style={styles.colorButtonContainer}>
             {colors.map((color, index) => (
-              <TouchableOpacity key={index} style={[styles.colorButtons, { backgroundColor: color },
-              bgColor === color && styles.selected]} onPress={() => setBgColor(color)} />
+              <TouchableOpacity
+                key={index}
+                style={[styles.colorButtons, { backgroundColor: color },
+                bgColor === color && styles.selected]}
+                onPress={() => setBgColor(color)} />
             ))}
           </View>
           <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="Start chat"
+            accessibilityHint="Go to the chat screen and begin to chat."
+            accessibilityRole="button"
             style={styles.startButton}
             onPress={() => navigation.navigate('ChatScreen', { name: name, bgColor: bgColor })}>
             <Text style={styles.startButtonText}>Start Chatting</Text>

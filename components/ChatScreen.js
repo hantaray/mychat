@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 
 const ChatScreen = ({ route, navigation }) => {
   const name = route.params.name;
@@ -13,7 +13,7 @@ const ChatScreen = ({ route, navigation }) => {
     setMessages([
       {
         _id: 1,
-        text: "Hello developer",
+        text: "Hello " + name + ", how are you?",
         createdAt: new Date(),
         user: {
           _id: 2,
@@ -21,6 +21,12 @@ const ChatScreen = ({ route, navigation }) => {
           avatar: "https://picsum.photos/id/64/140/140",
         },
       },
+      {
+        _id: 2,
+        text: name + ' entered the chat',
+        createdAt: new Date(),
+        system: true,
+      }
     ]);
   }, []);
 
@@ -28,10 +34,25 @@ const ChatScreen = ({ route, navigation }) => {
     setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
   }
 
+  const renderBubble = (props) => {
+    return <Bubble
+      {...props}
+      wrapperStyle={{
+        right: {
+          backgroundColor: "blue"
+        },
+        left: {
+          backgroundColor: "#FFF"
+        }
+      }}
+    />
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
       <GiftedChat
         messages={messages}
+        renderBubble={renderBubble}
         onSend={messages => onSend(messages)}
         user={{
           _id: 1
