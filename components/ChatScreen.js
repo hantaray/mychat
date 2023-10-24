@@ -1,37 +1,35 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat'
+import { collection, addDoc, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 
-const ChatScreen = ({ route, navigation }) => {
+const ChatScreen = ({ db, route, navigation }) => {
   const name = route.params.name;
+  const userID = route.params.userID;
   const bgColor = route.params.bgColor;
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     navigation.setOptions({ title: name });
-
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello " + name + ", how are you?",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "https://picsum.photos/id/64/140/140",
-        },
-      },
-      {
-        _id: 2,
-        text: name + ' entered the chat',
-        createdAt: new Date(),
-        system: true,
-      }
-    ]);
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+    const unsubMessages = onSnapshot(q, (docs) => {
+      let newMessages = [];
+      docs.forEach(doc => {
+        newMessages.push({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: new Date(doc.data().createdAt.toMillis())
+        })
+      })
+      setMessages(newMessages);
+    })
+    return () => {
+      if (unsubMessages) unsubMessages();
+    }
   }, []);
 
   const onSend = (newMessages) => {
-    setMessages(previousMessages => GiftedChat.append(previousMessages, newMessages))
+    addDoc(collection(db, "messages"), newMessages[0])
   }
 
   const renderBubble = (props) => {
@@ -55,7 +53,8 @@ const ChatScreen = ({ route, navigation }) => {
         renderBubble={renderBubble}
         onSend={messages => onSend(messages)}
         user={{
-          _id: 1
+          _id: userID,
+          name: name
         }}
       />
       {/* Fix for hidden keyboard on android */}

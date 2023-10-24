@@ -8,6 +8,21 @@ import { getFirestore } from 'firebase/firestore';
 // Create the navigator
 const Stack = createNativeStackNavigator();
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBMsZVIKIoWCvyLtMVnHNc1uDVaESNfzE0",
+  authDomain: "mychat-3a712.firebaseapp.com",
+  projectId: "mychat-3a712",
+  storageBucket: "mychat-3a712.appspot.com",
+  messagingSenderId: "415772447820",
+  appId: "1:415772447820:web:f276ff1fefbf2db9db10e9"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
 const App = () => {
   return (
     <NavigationContainer>
@@ -20,9 +35,8 @@ const App = () => {
         />
         <Stack.Screen
           name="ChatScreen"
-          component={ChatScreen}
         >
-          {props => <ShoppingLists db={db} {...props} />}
+          {props => <ChatScreen component={ChatScreen} db={db} {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
