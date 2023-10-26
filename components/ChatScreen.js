@@ -2,34 +2,60 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 import { collection, addDoc, onSnapshot, query, where, orderBy } from 'firebase/firestore';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ChatScreen = ({ db, route, navigation }) => {
+const ChatScreen = ({ db, route, navigation, isConnected }) => {
   const name = route.params.name;
   const userID = route.params.userID;
   const bgColor = route.params.bgColor;
   const [messages, setMessages] = useState([]);
 
+  let unsubMessages;
+
   useEffect(() => {
     navigation.setOptions({ title: name });
-    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
-    const unsubMessages = onSnapshot(q, (docs) => {
-      let newMessages = [];
-      docs.forEach(doc => {
-        newMessages.push({
-          id: doc.id,
-          ...doc.data(),
-          createdAt: new Date(doc.data().createdAt.toMillis())
+
+    if (isConnected === true) {
+      // unregister current onSnapshot() listener to avoid registering multiple listeners when
+      // useEffect code is re-executed.
+      if (unsubMessages) unsubMessages();
+      unsubMessages = null;
+      const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+      unsubMessages = onSnapshot(q, (docs) => {
+        let newMessages = [];
+        docs.forEach(doc => {
+          newMessages.push({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: new Date(doc.data().createdAt.toMillis())
+          })
         })
+        cacheMessages(newMessages);
+        setMessages(newMessages);
       })
-      setMessages(newMessages);
-    })
+    } else loadCachedMessages();
+
+    // Clean up code
     return () => {
       if (unsubMessages) unsubMessages();
     }
-  }, []);
+  }, [isConnected]);
 
   const onSend = (newMessages) => {
     addDoc(collection(db, "messages"), newMessages[0])
+  }
+
+  const cacheMessages = async (messagesToCache) => {
+    try {
+      await AsyncStorage.setItem('messages', JSON.stringify(messagesToCache));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  const loadCachedMessages = async () => {
+    const cachedMessages = await AsyncStorage.getItem("messages") || [];
+    setMessages(JSON.parse(cachedMessages));
   }
 
   const renderBubble = (props) => {
