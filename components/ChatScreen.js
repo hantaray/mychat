@@ -4,6 +4,7 @@ import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat'
 import { collection, addDoc, onSnapshot, query, where, orderBy } from 'firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomActions from './CustomActions';
+import MapView from 'react-native-maps';
 
 const ChatScreen = ({ db, route, navigation, isConnected }) => {
   const name = route.params.name;
@@ -82,6 +83,29 @@ const ChatScreen = ({ db, route, navigation, isConnected }) => {
     return <CustomActions {...props} />;
   };
 
+  const renderCustomView = (props) => {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{
+            width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3
+          }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
       <GiftedChat
@@ -89,6 +113,7 @@ const ChatScreen = ({ db, route, navigation, isConnected }) => {
         renderBubble={renderBubble}
         renderInputToolbar={renderInputToolbar}
         renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
         onSend={messages => onSend(messages)}
         user={{
           _id: userID,
