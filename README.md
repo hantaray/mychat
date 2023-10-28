@@ -6,7 +6,7 @@
 
 
 
-![Screenshot](/assets/screenshot.JPG?raw=true)
+![Screenshot](assets/screenshot.jpeg?raw=true)
 
 ## Description
 
