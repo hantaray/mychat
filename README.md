@@ -5,8 +5,9 @@
 </p>
 
 
-
-![Screenshot](assets/screenshot.jpeg?raw=true)
+<p align="center">
+<img src="https://github.com/hantaray/mychat/blob/master/assets/screenshot.jpeg" width=25% height=25%>
+</p>
 
 ## Description
 
