@@ -1,8 +1,4 @@
-<p align="center">
-
 <h1 align="center" style="margin-top: 0px;">*** MyChat ***</h1>
-
-</p>
 
 
 <p align="center">
